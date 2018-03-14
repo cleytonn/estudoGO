@@ -14,23 +14,26 @@ func main() {
 
 	exibeIntrodução()
 
-	exibeMenu() //Menu de opções
+	for {
 
-	comando := lerComando()
+		exibeMenu() //Menu de opções
 
-	switch comando {
-	case 1:
-		iniciaMonitoramento()
+		comando := lerComando()
 
-	case 2:
-		fmt.Println("Exibindo logs...")
+		switch comando {
+		case 1:
+			iniciaMonitoramento()
 
-	case 0:
-		fmt.Println("Saindo do programa!")
-		os.Exit(0)
-	default:
-		fmt.Println("Não conheco este comando")
-		os.Exit(-1)
+		case 2:
+			fmt.Println("Exibindo logs...")
+
+		case 0:
+			fmt.Println("Saindo do programa!")
+			os.Exit(0)
+		default:
+			fmt.Println("Não conheco este comando")
+			os.Exit(-1)
+		}
 	}
 }
 
@@ -68,8 +71,12 @@ func lerComando() int {
 func iniciaMonitoramento() {
 	fmt.Println("Iniciando monitoramento...")
 
-	site := "https://www.alura.com.br/planos-cursos-online"
+	site := "https://random-status-code.herokuapp.com/"
 	resp, _ := http.Get(site)
 
-	fmt.Println(resp)
+	if resp.StatusCode == 200 {
+		fmt.Println("Site:", site, "foi carregado com sucesso!")
+	} else {
+		fmt.Println("Site:", site, "está com problemas. Status code:", resp.StatusCode)
+	}
 }
