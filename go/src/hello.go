@@ -1,20 +1,26 @@
 package main //Pacote Principal
 
-import "fmt" //Pacote de formatação, como: print e scanf
+import (
+	"fmt" //Pacote de formatação, como: print e scanf
+	"net/http"
 
-import "os"
+	//Responsável pela requisição do sistema (get e post), fazendo a
+	//comunicação com a web
+
+	"os" //Trabalha com saídas do sistema
+)
 
 func main() {
 
 	exibeIntrodução()
 
-	exibeMenu()
+	exibeMenu() //Menu de opções
 
 	comando := lerComando()
 
 	switch comando {
 	case 1:
-		fmt.Println("Iniciando monitoramento...")
+		iniciaMonitoramento()
 
 	case 2:
 		fmt.Println("Exibindo logs...")
@@ -54,4 +60,16 @@ func lerComando() int {
 	fmt.Scan(&comando)
 
 	return comando
+}
+
+//No código abaixo o Operador diz para o GO ignorar o segundo retorno através do undescore
+//Isto acontece porque o http.get(site) esta retornando mais de uma resposta
+
+func iniciaMonitoramento() {
+	fmt.Println("Iniciando monitoramento...")
+
+	site := "https://www.alura.com.br/planos-cursos-online"
+	resp, _ := http.Get(site)
+
+	fmt.Println(resp)
 }
